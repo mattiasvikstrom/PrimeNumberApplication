@@ -5,14 +5,13 @@ namespace PrimeNumberApplication.Verify
     class Verify
     {
         /// <summary>
-        /// Checks if the string is indeed parsable to int
+        /// Checks if the string is indeed parable to int
         /// </summary>
         /// <param name="number"></param>
         /// <returns></returns>
         public static bool VerifyIsNumber(string number)
         {
-            var result = int.TryParse(number,out _);
-            return result;
+            return int.TryParse(number,out _);
         }
         /// <summary>
         /// Checks if number input is positive

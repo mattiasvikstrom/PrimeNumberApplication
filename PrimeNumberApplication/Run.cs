@@ -22,23 +22,26 @@ namespace PrimeNumberApplication
                                   "**************************************\n");
                 Console.Write(">> ");
                 string menuChoice = Console.ReadLine();
-                Console.ResetColor();
 
                 switch (menuChoice)
                 {
                     case "1":
+                        Console.Clear();
                         PrimeInputSection();
                         break;
                     case "2":
+                        Console.Clear();
                         ListPrimeNumbers();
                         break;
                     case "3":
+                        Console.Clear();
                         LocateHighestPrimeInList();
                         break;
                     case "5":
                         activeProgram = true;
                         break;
                 }
+                
             } while (!activeProgram);
         }
         /// <summary>
@@ -49,18 +52,16 @@ namespace PrimeNumberApplication
             bool validated = false;
             do
             {
-                var results = UserInput();
-                if (VerifyIfPositive(results))
+                Console.WriteLine("Enter number");
+                var userInput = Console.ReadLine();
+                var results = UserInput(userInput);
+                if (results < int.MaxValue)
                 {
                     var check = CheckPrime(results);
                     if (check)
                     {
                         validated = true;
                     }
-                }
-                else
-                {
-                    validated = false;
                 }
             } while (!validated);
         }

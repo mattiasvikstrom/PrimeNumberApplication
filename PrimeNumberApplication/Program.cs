@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace PrimeNumberApplication
+﻿namespace PrimeNumberApplication
 {
     class Program
     {

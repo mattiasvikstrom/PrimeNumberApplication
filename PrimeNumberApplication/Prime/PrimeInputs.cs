@@ -5,19 +5,22 @@ using static PrimeNumberApplication.Verify.Verify;
 
 namespace PrimeNumberApplication.Prime
 {
-    class PrimeInputs
+    public class PrimeInputs
     {
+        /// <summary>
+        /// List for all validated Prime numbers
+        /// </summary>
         private static List<int> Prime = new();
         /// <summary>
         /// Takes user input and checks for validity.
         /// </summary>
-        /// <returns></returns>
-        public static int UserInput()
+        /// <returns>int</returns>
+        public static int UserInput(string userInput)
         {
-            Console.WriteLine("Enter number");
-            var userInput = Console.ReadLine();
             var validation = VerifyIsNumber(userInput);
-            return validation ? int.Parse(userInput ?? string.Empty) : default;
+            if (!validation) return 0;
+            var val = int.Parse(userInput);
+            return val >= 0 ? val : 0;
         }
         /// <summary>
         /// Checks if entered number is Prime.
@@ -26,19 +29,19 @@ namespace PrimeNumberApplication.Prime
         /// <returns></returns>
         public static bool CheckPrime(int number)
         {
-            int i, m = 0;
-            if (number is 0 or 1)
+            if (number <= 1)
             {
+                Console.WriteLine("Input cannot be negative, letters, 1 or 0 or decimals. please try again.\n");
                 return false;
             }
-            m = number / 2;
-            for (i = 2; i <= m; i++)
+            int m = number / 2;
+            for (int i = 2; i <= m; i++)
             {
                 if (number % i != 0) continue;
-                Console.Write("Number is not Prime.");
+                Console.Write("Number is not Prime.\n");
                 return false;
             }
-            Console.Write("Number is Prime.");
+            Console.Write("Number is Prime.\n");
             AddPrimeNumber(number);
             return true;
         }
@@ -52,33 +55,34 @@ namespace PrimeNumberApplication.Prime
             {
                 highestPrime = Prime.Max(t => t);
             }
-            var nextPrime = NextPrimeNumber(highestPrime);
-            AddPrimeNumber(nextPrime);
+            AddPrimeNumber(NextPrimeNumber(highestPrime));
         }
         /// <summary>
-        /// Proceeds to check for next avaliable Prime number from the largest avaliable number in list.
+        /// Proceeds to check for next available Prime number from the largest available number in list.
         /// </summary>
         /// <param name="number"></param>
         /// <returns></returns>
-        public static int NextPrimeNumber(int number)
+        private static int NextPrimeNumber(int number)
         {
             while (true)
             {
                 bool isPrime = true;
-
-                number += 1;
-                if (number == 1)
+                number++;
+                switch (number)
                 {
-                    isPrime = false;
+                    case 1:
+                        {
+                            isPrime = false;
+                            break;
+                        }
+                    case 2:
+                        {
+                            isPrime = true;
+                            break;
+                        }
                 }
-                if (number == 2)
-                {
-                    isPrime = true;
-                }
-
                 int squared = (int)Math.Sqrt(number);
-
-                if (isPrime && number != 2)
+                if (isPrime)
                 {
                     for (var i = 2; i <= squared; i++)
                     {
@@ -88,7 +92,9 @@ namespace PrimeNumberApplication.Prime
                     }
                 }
                 if (isPrime)
+                {
                     return number;
+                }
             }
         }
         /// <summary>
@@ -97,23 +103,34 @@ namespace PrimeNumberApplication.Prime
         /// <param name="number"></param>
         private static void AddPrimeNumber(int number)
         {
-            if(Prime.Contains(number))
-                Console.WriteLine($"Prime number {number} is already in list");
+            if (Prime.Contains(number))
+            {
+                Console.WriteLine($"Prime number {number} is already in list\n");
+            }
             else
             {
                 Prime.Add(number);
-                Console.WriteLine($"{number} added");
+                Console.WriteLine($"Next prime number {number} added to list\n");
+                Prime.Sort();
             }
-            Prime.Sort();
         }
         /// <summary>
-        /// Prints list of current added Prime numbers from list.
+        /// Prints list of current added Primary numbers
         /// </summary>
         public static void ListPrimeNumbers()
         {
-            foreach (var item in Prime)
+            var count = Prime.Count;
+            if(Prime.Count > 0)
             {
-                Console.WriteLine($"{item}\n");
+                Console.WriteLine($"Number of entry's in list: {count}");
+                foreach (var item in Prime)
+                {
+                    Console.WriteLine($"{item}\n");
+                }
+            }
+            else
+            {
+                Console.WriteLine("No values yet in list");
             }
         }
     }
